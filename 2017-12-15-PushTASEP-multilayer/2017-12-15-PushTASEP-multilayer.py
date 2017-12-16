@@ -5,9 +5,9 @@ numpy.set_printoptions(threshold=numpy.nan)
 
 # 1. Set the parameters
 
-n = 18 #size of the lattice
-k = 3  #depth, number of layers
-t_max = 250 #time till simulate
+n = 30 #size of the lattice
+k = 8  #depth, number of layers
+t_max = 20 #time till simulate
 
 def xi(x):      #inhomogeneous space parameters
     if n/3 < x < 2*n/3:
@@ -67,28 +67,24 @@ while t < t_max:
     j = who_moves()
     make_move(j)
     m += 1
-    if( m % 50 == 0):
-        print t
-        print P
+    if( m % (min(10*n,1000)) == 0):
+        print str(int(t)) + "/" + str(int(t_max))
 
 
 # 5. print results to txt files
 
-# a = 1 #this is the filename which may be changed; must be matched by "a" in Mathematica file
-#
-# f = open('Hfout' + str(a) + '.txt', 'w')
-#
-# f.write("{")
-# for t in xrange(0,n):
-# 	f.write("{")
-# 	for x in xrange(0,n):
-# 		f.write("{" + str(W[t][x][0]) + "," + str(W[t][x][1]) + ","  + str(W[t][x][2]) + ","  + str(W[t][x][3]))
-# 		if x<n-1:
-# 			f.write("},")
-# 		else:
-# 			f.write("}")
-# 	if t<n-1:
-# 		f.write("},")
-# 	else:
-# 		f.write("}")
-# f.write("}")
+a = 1
+f = open('conf-out' + str(a) + '.txt', 'w')
+
+f.write("{\n")
+for i in xrange(0,k):
+    f.write("{")
+    for x in xrange(0,n):
+        f.write(str(int(P[i][x])))
+        if (x<n-1):
+            f.write(",")
+    if (i<k-1):
+        f.write("},\n")
+    else:
+        f.write("}")
+f.write("\n}")
