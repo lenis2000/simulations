@@ -1,22 +1,26 @@
-#Simulation of the new multilayer PushTASEP, in inhomogeneous space
+# Simulation of the new multilayer PushTASEP, in inhomogeneous space
 
 import numpy
 numpy.set_printoptions(threshold=numpy.nan)
 
-from graphics import *
-win = GraphWin()
+from PIL import Image, ImageDraw
 
 # 1. Set the parameters
 
-n = 50 #size of the lattice
-k = 8  #depth, number of layers
-t_max = 50 #time till simulate
+n = 400 #size of the lattice
+k = 4  #depth, number of layers
 
 def xi(x):      #inhomogeneous space parameters
-    if n/3 < x < 2*n/3:
+    if x == n/3 or x== n/4:
         return .1
     else:
         return 1
+
+###
+
+a = 1 #output file number
+t_max = 20 #time till which we simulate
+graph_mult = 3 #the scale at which we display the result
 
 # 2. initialize
 
@@ -70,16 +74,15 @@ while t < t_max:
     j = who_moves()
     make_move(j)
     m += 1
-    if( m % (min(10*n,1000)) == 0):
+    if( m % (min(10*n,5000)) == 0):
         print str(int(t)) + "/" + str(int(t_max))
 
 
 # 5. print results to txt files
 
-a = 1
-f = open('conf-out' + str(a) + '.txt', 'w')
+f = open('multilayer-pushtasep' + str(a) + '.txt', 'w')
 
-f.write("{\n")
+f.write("{")
 for i in xrange(0,k):
     f.write("{")
     for x in xrange(0,n):
@@ -87,7 +90,20 @@ for i in xrange(0,k):
         if (x<n-1):
             f.write(",")
     if (i<k-1):
-        f.write("},\n")
+        f.write("},")
     else:
         f.write("}")
-f.write("\n}")
+f.write("}")
+
+# 6. Graphics output
+
+im = Image.new('RGB', (n*graph_mult, k*graph_mult), (255,255,255))
+draw = ImageDraw.Draw(im)
+
+for mi in xrange(0,k):
+    for mx in xrange(0,n):
+        if (int(P[mi][mx]) == 1):
+            draw.rectangle([mx*graph_mult,mi*graph_mult,(mx+1)*graph_mult,(mi+1)*graph_mult], fill="black")
+
+im.show()
+im.save('multilayer-pushtasep-graph' + str(a) + '.png')
