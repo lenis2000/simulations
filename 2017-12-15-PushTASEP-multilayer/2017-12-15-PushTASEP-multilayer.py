@@ -3,11 +3,14 @@
 import numpy
 numpy.set_printoptions(threshold=numpy.nan)
 
+from graphics import *
+win = GraphWin()
+
 # 1. Set the parameters
 
-n = 30 #size of the lattice
+n = 50 #size of the lattice
 k = 8  #depth, number of layers
-t_max = 20 #time till simulate
+t_max = 50 #time till simulate
 
 def xi(x):      #inhomogeneous space parameters
     if n/3 < x < 2*n/3:
