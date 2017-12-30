@@ -51,23 +51,13 @@ def make_move(j0):
     global k
     global n
 
-    
-    for i in xrange(0,k+1): # if no one moves, do nothing
-        if i == k:
-            break
-        if P[i][j0] == 1:
-            break
-    if i == k:
-        return
+    layer = 0
+    site = j0
 
-    P[i][j0] = 0 # particle jumps at layer i our of location j0
-    if j0 == n-1: # if j0 is the last, that's it
-        return
+    while layer <= k and site <= n:
+        
 
-    for j1 in xrange(j0+1,n): #find till where we push
-        if P[i][j1] == 0:
-            P[i][j1] = 1
-            return
+
 
 # 4. Main simulation
 
