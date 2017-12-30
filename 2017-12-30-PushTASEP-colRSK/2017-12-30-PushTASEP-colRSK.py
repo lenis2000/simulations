@@ -7,9 +7,9 @@ from PIL import Image, ImageDraw
 
 # 1. Set the parameters
 
-n = 200 #size of the lattice
-k = 300  #depth, number of layers
-t_max = 150 #time till which we simulate
+n = 10 #size of the lattice
+k = 5  #depth, number of layers
+t_max = 3 #time till which we simulate
 
 def xi(y):      #inhomogeneous space parameters
     if y <= 150: 
@@ -51,30 +51,35 @@ def make_move(j0):
     global k
     global n
 
+    print "start move"
+
     l = 0
     s = j0
 
-    while P[l][s] == 0:
-        l = l + 1
-        if l == k:
+    while True:
+        while P[l][s] == 0:
+            l = l + 1
+            print "=================================="
+            if l == k:
+                return
+        P[l][s] = 0
+
+        if s == n - 1:
             return
-    P[l][s] = 0
+        else: 
+            s = s + 1
 
-    if s == n - 1:
-        return
-    else: 
-        s = s + 1
+        while P[l][s] == 1:
+            s = s + 1
+            print "site"
+            if s == n:
+                return
+        P[l][s] = 1
 
-    while P[l][s] == 1:
-        s = s + 1
-        if s == n:
+        if l == k - 1:
             return
-    P[l][s] = 1
-
-    if l == k - 1:
-        return
-    else:
-        l = l + 1
+        else:
+            l = l + 1
         
 
 # 4. Main simulation
@@ -82,7 +87,9 @@ def make_move(j0):
 m = 0
 while t < t_max:
     j = who_moves()
+    print j
     make_move(j)
+    print P
     m += 1
     if( m % (min(10*n,5000)) == 0):
         print str(int(t)) + "/" + str(int(t_max))
