@@ -51,38 +51,9 @@ def make_move(j0):
     global k
     global n
 
-    layer = 0
-    site = j0
 
-    #  print P
-    #  print str(layer)+str(site)
-
-    while layer < k and site < n: # (layer, site) are the current layer and site we're working on
-        # first, update layer down
-
-        #  print str(layer) + "  " + str(site)
-
-        while layer < k and P[layer][site] == 0: #go down and find first 0
-            #  print "layer cycle"
-            layer = layer + 1
-
-        P[layer][site] = 0
+    
         
-        if site == n-1:
-            return
-        site = site + 1
-
-        #  print P
-
-        while site < n-1 and P[layer][site] == 1: #go right and find first 1
-            #  print "site cycle"
-            site = site + 1
-
-        P[layer][site] = 1
-
-        #  print P
-        
-    return
 
 # 4. Main simulation
 
