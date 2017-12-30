@@ -8,14 +8,14 @@ from PIL import Image, ImageDraw
 # 1. Set the parameters
 
 n = 200 #size of the lattice
-k = 200  #depth, number of layers
-t_max = 160 #time till which we simulate
+k = 300  #depth, number of layers
+t_max = 150 #time till which we simulate
 
-def xi(x):      #inhomogeneous space parameters
-    if x == n/3 or x== n/4:
+def xi(y):      #inhomogeneous space parameters
+    if y <= 150: 
         return 1
     else:
-        return 1
+        return 20
 
 ###
 
@@ -57,7 +57,7 @@ def make_move(j0):
     while P[l][s] == 0:
         l = l + 1
         if l == k:
-            break
+            return
     P[l][s] = 0
 
     if s == n - 1:
