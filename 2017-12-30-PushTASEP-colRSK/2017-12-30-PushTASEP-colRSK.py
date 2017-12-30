@@ -7,9 +7,9 @@ from PIL import Image, ImageDraw
 
 # 1. Set the parameters
 
-n = 10 #size of the lattice
-k = 5  #depth, number of layers
-t_max = 3 #time till which we simulate
+n = 200 #size of the lattice
+k = 300  #depth, number of layers
+t_max = 150 #time till which we simulate
 
 def xi(y):      #inhomogeneous space parameters
     if y <= 150: 
@@ -91,7 +91,7 @@ while t < t_max:
 
 # 5. print results to txt files
 
-f = open('multilayer-pushtasep' + str(a) + '.txt', 'w')
+f = open('multilayer-pushtasep-RSK-' + str(a) + '.txt', 'w')
 
 f.write("{")
 for i in xrange(0,k):
@@ -117,4 +117,4 @@ for mi in xrange(0,k):
             draw.rectangle([mx*graph_mult,mi*graph_mult,(mx+1)*graph_mult,(mi+1)*graph_mult], fill="black")
 
 im.show()
-im.save('multilayer-pushtasep-graph' + str(a) + '.png')
+im.save('multilayer-pushtasep-RSK-graph-' + str(a) + '.png')
