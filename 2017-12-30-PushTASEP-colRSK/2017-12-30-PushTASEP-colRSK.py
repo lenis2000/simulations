@@ -51,15 +51,12 @@ def make_move(j0):
     global k
     global n
 
-    print "start move"
-
     l = 0
     s = j0
 
     while True:
         while P[l][s] == 0:
             l = l + 1
-            print "=================================="
             if l == k:
                 return
         P[l][s] = 0
@@ -71,7 +68,6 @@ def make_move(j0):
 
         while P[l][s] == 1:
             s = s + 1
-            print "site"
             if s == n:
                 return
         P[l][s] = 1
@@ -87,9 +83,7 @@ def make_move(j0):
 m = 0
 while t < t_max:
     j = who_moves()
-    print j
     make_move(j)
-    print P
     m += 1
     if( m % (min(10*n,5000)) == 0):
         print str(int(t)) + "/" + str(int(t_max))
