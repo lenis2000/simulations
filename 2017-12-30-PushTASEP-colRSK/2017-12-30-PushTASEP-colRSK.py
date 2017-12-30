@@ -60,7 +60,6 @@ def make_move(j0):
 m = 0
 while t < t_max:
     j = who_moves()
-    print j
     make_move(j)
     m += 1
     if( m % (min(10*n,5000)) == 0):
