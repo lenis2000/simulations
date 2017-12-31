@@ -7,15 +7,15 @@ from PIL import Image, ImageDraw
 
 # 1. Set the parameters
 
-n = 10 #size of the lattice
-k = 10  #depth, number of layers
-t_max = 10 #time till which we simulate
+n = 200 #size of the lattice
+k = 300  #depth, number of layers
+t_max = 150 #time till which we simulate
 
-def xi(x):      #inhomogeneous space parameters
-    if x == n/3 or x== n/4:
+def xi(y):      #inhomogeneous space parameters
+    if y <= 150: 
         return 1
     else:
-        return 1
+        return 20
 
 ###
 
@@ -51,13 +51,32 @@ def make_move(j0):
     global k
     global n
 
-    layer = 0
-    site = j0
+    l = 0
+    s = j0
 
-    while layer <= k and site <= n:
+    while True:
+        while P[l][s] == 0:
+            l = l + 1
+            if l == k:
+                return
+        P[l][s] = 0
+
+        if s == n - 1:
+            return
+        else: 
+            s = s + 1
+
+        while P[l][s] == 1:
+            s = s + 1
+            if s == n:
+                return
+        P[l][s] = 1
+
+        if l == k - 1:
+            return
+        else:
+            l = l + 1
         
-
-
 
 # 4. Main simulation
 
@@ -72,7 +91,7 @@ while t < t_max:
 
 # 5. print results to txt files
 
-f = open('multilayer-pushtasep' + str(a) + '.txt', 'w')
+f = open('multilayer-pushtasep-RSK-' + str(a) + '.txt', 'w')
 
 f.write("{")
 for i in xrange(0,k):
@@ -98,4 +117,4 @@ for mi in xrange(0,k):
             draw.rectangle([mx*graph_mult,mi*graph_mult,(mx+1)*graph_mult,(mi+1)*graph_mult], fill="black")
 
 im.show()
-im.save('multilayer-pushtasep-graph' + str(a) + '.png')
+im.save('multilayer-pushtasep-RSK-graph-' + str(a) + '.png')
