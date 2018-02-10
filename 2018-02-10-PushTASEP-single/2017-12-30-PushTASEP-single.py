@@ -7,20 +7,19 @@ from PIL import Image, ImageDraw
 
 # 1. Set the parameters
 
-n = 100 #size of the lattice
-k = 100  #depth, number of layers
+n = 1000 #size of the lattice
+k = 1  #depth, number of layers
 t_max = 100 #time till which we simulate
 
 def xi(x):      #inhomogeneous space parameters
-    if x == n/3 or x== n/4:
+    if x < n/3:
         return 1
     else:
-        return 1
+        return 2
 
 ###
 
-a = 1 #output file number
-graph_mult = 10 #the scale at which we display the result
+a = 3 #output file number
 
 # 2. initialize
 
@@ -80,7 +79,7 @@ while t < t_max:
 
 # 5. print results to txt files
 
-f = open('multilayer-pushtasep' + str(a) + '.txt', 'w')
+f = open('single-pushtasep-' + str(a) + '.txt', 'w')
 
 f.write("{")
 for i in xrange(0,k):
@@ -94,17 +93,4 @@ for i in xrange(0,k):
     else:
         f.write("}")
 f.write("}")
-
-# 6. Graphics output
-
-im = Image.new('RGB', (n*graph_mult, k*graph_mult), (255,255,255))
-draw = ImageDraw.Draw(im)
-
-for mi in xrange(0,k):
-    for mx in xrange(0,n):
-        if (int(P[mi][mx]) == 1):
-            draw.rectangle([mx*graph_mult,mi*graph_mult,(mx+1)*graph_mult,(mi+1)*graph_mult], fill="black")
-
-im.show()
-im.save('multilayer-pushtasep-graph' + str(a) + '.png')
 
