@@ -20,7 +20,7 @@ a = 2 #output file number
 
 # 2. initialize
 
-P = numpy.zeroes((n)) #array of particles, initially step IC
+P = numpy.zeros((n)) #array of particles, initially step IC
 XA = numpy.zeros((n)) #array of waiting times per sites
 t = 0 #global time
 
@@ -30,43 +30,10 @@ for x in xrange(0,n):
 for x in xrange(0,n):
     P[x] = x
 
-# 3. Some preliminary functions
+print P
+print XA
 
-def who_moves():
-    global t
-    global XA
-    global n
-    global xi
-    j = numpy.argmin(XA)
-    dt = XA[j]
-    t += dt # update global time
-    for xx in xrange(0,n):
-        XA[xx] -= dt
-    XA[j] = numpy.random.exponential(1./xi(j))
-    return j
-
-def make_move(j0):
-    global P
-    global k
-    global n
-
-    s = j0
-
-    while True:
-        P[0][s] = 0
-
-        if s == n - 1:
-            return
-        else: 
-            s = s + 1
-
-        while P[0][s] == 1:
-            s = s + 1
-            if s == n:
-                return
-        P[0][s] = 1
-
-# 4. Main simulation
+# 3. Main simulation
 
 m = 0
 while t < t_max:
@@ -76,8 +43,7 @@ while t < t_max:
     if( m % (min(10*n,5000)) == 0):
         print str(int(t)) + "/" + str(int(t_max))
 
-
-# 5. print results to txt files
+# 4. print results to txt files
 
 f = open('single-layer-pushtasep-' + str(a) + '.txt', 'w')
 
@@ -93,16 +59,3 @@ for i in xrange(0,k):
     else:
         f.write("}")
 f.write("}")
-
-# 6. Graphics output
-#  im = Image.new('RGB', (n*graph_mult, k*graph_mult), (255,255,255))
-#  draw = ImageDraw.Draw(im)
-#
-#  for mi in xrange(0,k):
-#      for mx in xrange(0,n):
-#          if (int(P[mi][mx]) == 1):
-#              draw.rectangle([mx*graph_mult,mi*graph_mult,(mx+1)*graph_mult,(mi+1)*graph_mult], fill="black")
-#
-#  im.show()
-#  im.save('multilayer-pushtasep-RSK-graph-' + str(a) + '.png')
-#
