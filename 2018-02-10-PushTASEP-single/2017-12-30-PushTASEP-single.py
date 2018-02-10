@@ -3,12 +3,9 @@
 import numpy
 numpy.set_printoptions(threshold=numpy.nan)
 
-from PIL import Image, ImageDraw
-
 # 1. Set the parameters
 
-n = 200 #size of the lattice
-k = 1  #depth, number of layers
+n = 200 #number of particles
 t_max = 150 #time till which we simulate
 
 def xi(y):      #inhomogeneous space parameters
@@ -19,17 +16,19 @@ def xi(y):      #inhomogeneous space parameters
 
 ###
 
-a = 1 #output file number
-graph_mult = 10 #the scale at which we display the result
+a = 2 #output file number
 
 # 2. initialize
 
-P = numpy.ones((k,n)) #array of particles, initially step IC
+P = numpy.zeroes((n)) #array of particles, initially step IC
 XA = numpy.zeros((n)) #array of waiting times per sites
 t = 0 #global time
 
 for x in xrange(0,n):
     XA[x] = numpy.random.exponential(1./xi(x))
+
+for x in xrange(0,n):
+    P[x] = x
 
 # 3. Some preliminary functions
 
@@ -51,32 +50,21 @@ def make_move(j0):
     global k
     global n
 
-    l = 0
     s = j0
 
     while True:
-        while P[l][s] == 0:
-            l = l + 1
-            if l == k:
-                return
-        P[l][s] = 0
+        P[0][s] = 0
 
         if s == n - 1:
             return
         else: 
             s = s + 1
 
-        while P[l][s] == 1:
+        while P[0][s] == 1:
             s = s + 1
             if s == n:
                 return
-        P[l][s] = 1
-
-        if l == k - 1:
-            return
-        else:
-            l = l + 1
-        
+        P[0][s] = 1
 
 # 4. Main simulation
 
