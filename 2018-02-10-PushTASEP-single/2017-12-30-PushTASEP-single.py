@@ -20,7 +20,7 @@ a = 2 #output file number
 
 # 2. initialize
 
-P = numpy.zeros((n)) #array of particles, initially step IC
+P = numpy.zeros((n)) #array of particles' locations, initially step IC
 XA = numpy.zeros((n)) #array of waiting times per sites
 t = 0 #global time
 
@@ -40,6 +40,20 @@ while t < t_max:
     
     dt = numpy.amin(XA)
     j = numpy.argmin(XA)
+ 
+    t += dt # update global time
+    for xx in xrange(0,n):
+        XA[xx] -= dt
+
+    P[j] = 0
+    if j < n-1:
+    for j1 in xrange(j+1,n): #find till where we push
+        if P[j1] == 0:
+            P[j1] = 1
+            break
+    
+    XA[j] = numpy.random.exponential(1./xi(P[j1]))
+    
 
     m += 1
     if( m % (min(10*n,5000)) == 0):
