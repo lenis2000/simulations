@@ -37,8 +37,10 @@ print XA
 
 m = 0
 while t < t_max:
-    j = who_moves()
-    make_move(j)
+    
+    dt = numpy.amin(XA)
+    j = numpy.argmin(XA)
+
     m += 1
     if( m % (min(10*n,5000)) == 0):
         print str(int(t)) + "/" + str(int(t_max))
@@ -48,14 +50,8 @@ while t < t_max:
 f = open('single-layer-pushtasep-' + str(a) + '.txt', 'w')
 
 f.write("{")
-for i in xrange(0,k):
-    f.write("{")
-    for x in xrange(0,n):
-        f.write(str(int(P[i][x])))
-        if (x<n-1):
-            f.write(",")
-    if (i<k-1):
-        f.write("},")
-    else:
-        f.write("}")
+for x in xrange(0,n):
+    f.write(str(int(P[x])))
+    if (x<n-1):
+        f.write(",")
 f.write("}")
