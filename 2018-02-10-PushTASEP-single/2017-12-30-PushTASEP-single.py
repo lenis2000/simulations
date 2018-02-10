@@ -8,6 +8,7 @@ from PIL import Image, ImageDraw
 # 1. Set the parameters
 
 n = 200 #size of the lattice
+k = 1  #depth, number of layers
 t_max = 150 #time till which we simulate
 
 def xi(y):      #inhomogeneous space parameters
@@ -90,7 +91,7 @@ while t < t_max:
 
 # 5. print results to txt files
 
-f = open('multilayer-pushtasep-RSK-' + str(a) + '.txt', 'w')
+f = open('single-layer-pushtasep-' + str(a) + '.txt', 'w')
 
 f.write("{")
 for i in xrange(0,k):
@@ -106,14 +107,14 @@ for i in xrange(0,k):
 f.write("}")
 
 # 6. Graphics output
-
-im = Image.new('RGB', (n*graph_mult, k*graph_mult), (255,255,255))
-draw = ImageDraw.Draw(im)
-
-for mi in xrange(0,k):
-    for mx in xrange(0,n):
-        if (int(P[mi][mx]) == 1):
-            draw.rectangle([mx*graph_mult,mi*graph_mult,(mx+1)*graph_mult,(mi+1)*graph_mult], fill="black")
-
-im.show()
-im.save('multilayer-pushtasep-RSK-graph-' + str(a) + '.png')
+#  im = Image.new('RGB', (n*graph_mult, k*graph_mult), (255,255,255))
+#  draw = ImageDraw.Draw(im)
+#
+#  for mi in xrange(0,k):
+#      for mx in xrange(0,n):
+#          if (int(P[mi][mx]) == 1):
+#              draw.rectangle([mx*graph_mult,mi*graph_mult,(mx+1)*graph_mult,(mi+1)*graph_mult], fill="black")
+#
+#  im.show()
+#  im.save('multilayer-pushtasep-RSK-graph-' + str(a) + '.png')
+#
