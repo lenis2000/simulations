@@ -1,4 +1,4 @@
-# Simulation of the single layer PushTASEP in inhomogeneous space
+# Simulation of the single layer inhomogeneous PushTASEP
 
 import numpy
 numpy.set_printoptions(threshold=numpy.nan)
@@ -7,20 +7,19 @@ from PIL import Image, ImageDraw
 
 # 1. Set the parameters
 
-n = 200 #size of the lattice
+n = 1200 #size of the lattice
 k = 1  #depth, number of layers
-t_max = 150 #time till which we simulate
+t_max = 200 #time till which we simulate
 
-def xi(y):      #inhomogeneous space parameters
-    if y <= 150: 
+def xi(x):      #inhomogeneous space parameters
+    if x < 400:
         return 1
     else:
-        return 20
+        return 2
 
 ###
 
-a = 1 #output file number
-graph_mult = 10 #the scale at which we display the result
+a = 12 #output file number
 
 # 2. initialize
 
@@ -50,33 +49,22 @@ def make_move(j0):
     global P
     global k
     global n
+    for i in xrange(0,k+1): # if no one moves, do nothing
+        if i == k:
+            break
+        if P[i][j0] == 1:
+            break
+    if i == k:
+        return
 
-    l = 0
-    s = j0
+    P[i][j0] = 0 # particle jumps at layer i our of location j0
+    if j0 == n-1: # if j0 is the last, that's it
+        return
 
-    while True:
-        while P[l][s] == 0:
-            l = l + 1
-            if l == k:
-                return
-        P[l][s] = 0
-
-        if s == n - 1:
+    for j1 in xrange(j0+1,n): #find till where we push
+        if P[i][j1] == 0:
+            P[i][j1] = 1
             return
-        else: 
-            s = s + 1
-
-        while P[l][s] == 1:
-            s = s + 1
-            if s == n:
-                return
-        P[l][s] = 1
-
-        if l == k - 1:
-            return
-        else:
-            l = l + 1
-        
 
 # 4. Main simulation
 
@@ -91,7 +79,7 @@ while t < t_max:
 
 # 5. print results to txt files
 
-f = open('single-layer-pushtasep-' + str(a) + '.txt', 'w')
+f = open('single-pushtasep-' + str(a) + '.txt', 'w')
 
 f.write("{")
 for i in xrange(0,k):
@@ -106,15 +94,3 @@ for i in xrange(0,k):
         f.write("}")
 f.write("}")
 
-# 6. Graphics output
-#  im = Image.new('RGB', (n*graph_mult, k*graph_mult), (255,255,255))
-#  draw = ImageDraw.Draw(im)
-#
-#  for mi in xrange(0,k):
-#      for mx in xrange(0,n):
-#          if (int(P[mi][mx]) == 1):
-#              draw.rectangle([mx*graph_mult,mi*graph_mult,(mx+1)*graph_mult,(mi+1)*graph_mult], fill="black")
-#
-#  im.show()
-#  im.save('multilayer-pushtasep-RSK-graph-' + str(a) + '.png')
-#
