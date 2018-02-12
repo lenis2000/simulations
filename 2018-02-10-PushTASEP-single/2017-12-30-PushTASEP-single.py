@@ -7,19 +7,19 @@ from PIL import Image, ImageDraw
 
 # 1. Set the parameters
 
-n = 1000 #size of the lattice
+n = 1200 #size of the lattice
 k = 1  #depth, number of layers
-t_max = 100 #time till which we simulate
+t_max = 200 #time till which we simulate
 
 def xi(x):      #inhomogeneous space parameters
-    if x < n/3:
+    if x < 400:
         return 1
     else:
         return 2
 
 ###
 
-a = 3 #output file number
+a = 12 #output file number
 
 # 2. initialize
 
