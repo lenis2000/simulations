@@ -1,4 +1,4 @@
-// heuristic.cpp
+// heuristic_dim_lambda.cpp
 // Implements a heuristic search for partitions maximizing f^lambda (SYT count),
 // based on the algorithm constraints described in arXiv:2311.15199v2 (a.pdf),
 // with an added "shaking" step for candidate generation.
@@ -7,6 +7,14 @@
 //            with exactly k remove/add steps for each k=1,2,...,MAX_SHAKE_K,
 //            evaluating the best dim at each k and comparing. All candidates
 //            must remain within G'.
+/*
+COMPILE:
+
+clang++ -O3 -march=native -flto -fuse-linker-plugin -funroll-loops -ftree-vectorize -pthread -ffast-math -fopenmp -o heuristic_dim_lambda heuristic_dim_lambda.cpp -lgmp -lgmpxx -I/opt/homebrew/include -L/opt/homebrew/lib
+
+USAGE:
+
+*/
 
 #include <iostream>
 #include <vector>
